@@ -1,20 +1,20 @@
-import './App.css';
-import About from './components/About';
-import Alert from './components/Alert';
-import NavBar from './components/NavBar'; 
-import TextForm from './components/TextForm';
-import React, { useState } from 'react';
+import "./App.css";
+import About from "./components/About";
+import Alert from "./components/Alert";
+import NavBar from "./components/NavBar";
+import TextForm from "./components/TextForm";
+import React, { useState } from "react";
 
 import { HashRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState('dark');
+  const [mode, setMode] = useState("light");
   const [alert, setAlert] = useState(null);
 
   const showAlert = (message, type) => {
     setAlert({
       msg: message,
-      type: type
+      type: type,
     });
     setTimeout(() => {
       setAlert(null);
@@ -22,22 +22,21 @@ function App() {
   };
 
   const toggleMode = () => {
-    if (mode === 'light') {
-      setMode('dark');
-      document.body.style.backgroundColor = '#0c2b3e';
-      document.body.style.color = 'white';
+    if (mode === "light") {
+      setMode("dark");
+      document.body.style.backgroundColor = "#0c2b3e";
+      document.body.style.color = "white";
       showAlert("Dark mode has been enabled", "success");
     } else {
-      setMode('light');
+      setMode("light");
       document.body.style.backgroundColor = "white";
       document.body.style.color = "#0c2b3e";
-      showAlert("Light mode has been enabled", "success");
     }
   };
 
   return (
     <>
-   {/*  <Router> 
+      {/*  <Router> 
   <NavBar title="TextCount" mode={mode} toggleMode={toggleMode} />
   <Alert alert={alert} />
   <div className="container my-3">
@@ -51,19 +50,28 @@ function App() {
   </div>
   </Router>
    */}
- 
 
-<HashRouter>
-<NavBar title="TextCount" mode={mode} toggleMode={toggleMode} />
-<Alert alert={alert} />
-<div className="container my-3">
-  <Routes>
-    <Route path="/" element={<TextForm showAlert={showAlert} heading="Enter text to analyze" mode={mode} />} />
-    <Route path="/about" element={<About />} />
-  </Routes>
-</div>
-</HashRouter>
-</>
+      <HashRouter>
+        <NavBar title="TextCount" mode={mode} toggleMode={toggleMode} />
+        <Alert alert={alert} />
+        <div className="container my-3">
+          <Routes>
+          <Route path="/about" element={<About mode={mode} />} />
+            <Route
+              path="/"
+              element={
+                <TextForm
+                  showAlert={showAlert}
+                  heading=" Track your words, Polish your message! "
+                  mode={mode}
+                />
+              }
+            />
+  
+          </Routes>
+        </div>
+      </HashRouter>
+    </>
   );
 }
 
