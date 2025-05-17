@@ -8,9 +8,9 @@ export default function NavBar(props) {
       className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <button className="navbar-brand btn btn-link" type="button">
           {props.title}
-        </a>
+        </button>
         <button
           className="navbar-toggler"
           type="button"
@@ -25,25 +25,16 @@ export default function NavBar(props) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="">
+              <button className="nav-link active btn btn-link" type="button">
                 Home
-              </a>
+              </button>
             </li>
             <li className="nav-item">
+              <button className="nav-link active btn btn-link" type="button">
+                About
+              </button>
             </li>
           </ul>
-          <form className="d-flex">
-            <input
-              className="form-control me-2"
-              type="search"
-              id="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-secondary" type="submit">
-              Search
-            </button>
-          </form>
           <div
             className={`form-check form-switch ms-4 text-${
               props.mode === "light" ? "dark" : "light"

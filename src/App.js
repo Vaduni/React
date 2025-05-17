@@ -1,5 +1,5 @@
 import './App.css';
-//import About from './components/About';
+import About from './components/About';
 import Alert from './components/Alert';
 import NavBar from './components/NavBar'; 
 import TextForm from './components/TextForm';
@@ -38,10 +38,12 @@ function App() {
   <NavBar title="TextCount" mode={mode} toggleMode={toggleMode} />
   <Alert alert={alert} />
   <div className="container my-3">
+    <About/>
     {/*<Routes>
       <Route path="/about" element={<About />} />
       <Route path="/" element= "/">*/}
        <TextForm showAlert={showAlert} heading="Enter text to analyze" mode={mode} />
+
   {/*  </Routes>*/}
   </div>
  {/* </Router>
