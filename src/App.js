@@ -3,9 +3,12 @@ import About from "./components/About";
 import Alert from "./components/Alert";
 import NavBar from "./components/NavBar";
 import TextForm from "./components/TextForm";
+import QuoteSection from "./components/QuoteSection";
+
 import React, { useState } from "react";
 
 import { HashRouter, Routes, Route } from "react-router-dom";
+import Footer from "./components/Footer";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -24,7 +27,7 @@ function App() {
   const toggleMode = () => {
     if (mode === "light") {
       setMode("dark");
-      document.body.style.backgroundColor = "#0c2b3e";
+      document.body.style.backgroundColor = "#11181d";
       document.body.style.color = "white";
       showAlert("Dark mode has been enabled", "success");
     } else {
@@ -54,6 +57,7 @@ function App() {
       <HashRouter>
         <NavBar title="TextCount" mode={mode} toggleMode={toggleMode} />
         <Alert alert={alert} />
+        <QuoteSection mode={mode} />
         <div className="container my-3">
           <Routes>
           <Route path="/about" element={<About mode={mode} />} />
@@ -70,6 +74,7 @@ function App() {
   
           </Routes>
         </div>
+        <Footer/>
       </HashRouter>
     </>
   );

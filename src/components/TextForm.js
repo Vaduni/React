@@ -43,7 +43,7 @@ export default function TextForm(props) {
             className="form-control"
             value={text}
             style={{
-              backgroundColor: props.mode === "dark" ? "#6f7a85" : "white",
+              backgroundColor: props.mode === "dark" ? "#6c757d" : "white",
               color: props.mode === "dark" ? "white" : "#0c2b3e",
             }}
             onChange={handleOnChange}
