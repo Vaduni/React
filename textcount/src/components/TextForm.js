@@ -73,7 +73,11 @@ export default function TextForm(props) {
       </div>
       <div className="container my-3">
         <h1>Your text summary</h1>
+<<<<<<< HEAD:textcount/src/components/TextForm.js
         <p>{text.trim().split(/\s+/).filter(word => word.length > 0).length} words and {1000 - text.length} characters</p>
+=======
+        <p>{text.split(/\s+/).filter ((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
+>>>>>>> 18d0bf8c (final commit):my-app/src/components/TextForm.js
 
         <p>{0.08 * text.split(" ").filter ((element)=>{return element.length!==0}).length} Minutes read.</p>
         <h2>Preview</h2>
