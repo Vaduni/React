@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const apiKey = process.env.NEWS_API_KEY;
+  const apiKey = process.env.REACT_APP_NEWS_API_KEY;
 
   // Get query params with defaults
   const { country = "us", pageSize = 7, category = "technology", page = 1 } = req.query;
