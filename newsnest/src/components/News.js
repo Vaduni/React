@@ -11,18 +11,34 @@ const News = (props) => {
   const [totalResults, settotalResults] = useState(0);
 
   const updateNews = async () => {
-    props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${page}`;
-    setloading(true);
-    let data = await fetch(url);
-    props.setProgress(30);
-    let parsedData = await data.json();
-    props.setProgress(60);
-    setarticles(parsedData.articles);
-    settotalResults(parsedData.totalResults);
-    setloading(false);
-    props.setProgress(100);
-  };
+  props.setProgress(10);
+  setloading(true);
+
+  const url = `/api/news?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&page=${page}`;
+
+  let data = await fetch(url);
+  props.setProgress(30);
+  let parsedData = await data.json();
+  props.setProgress(60);
+
+  setarticles(parsedData.articles);
+  settotalResults(parsedData.totalResults);
+  setloading(false);
+  props.setProgress(100);
+};
+
+const fetchMoreData = async () => {
+  const nextPage = page + 1;
+  setpage(nextPage);
+
+  const url = `/api/news?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&page=${nextPage}`;
+
+  let data = await fetch(url);
+  let parsedData = await data.json();
+
+  setarticles(articles.concat(parsedData.articles));
+  settotalResults(parsedData.totalResults);
+};
 
   useEffect(() => {
     document.title="NewsNest - "+props.category;
@@ -30,14 +46,6 @@ const News = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${page+1}`;
-    setpage(page+1);
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    setarticles(articles.concat(parsedData.articles));
-    settotalResults(parsedData.totalResults);
-  };
 
   return (
     <div className="container my-3">
