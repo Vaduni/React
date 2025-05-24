@@ -10,22 +10,35 @@ const News = (props) => {
   const [page, setpage] = useState(1);
   const [totalResults, settotalResults] = useState(0);
 
-  const updateNews = async () => {
-  props.setProgress(10);
-  setloading(true);
+ const updateNews = async () => {
+  try {
+    props.setProgress(10);
+    setloading(true);
 
-  const url = `/api/news?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&page=${page}`;
+    const url = `/api/news?country=${props.country}&category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
 
-  let data = await fetch(url);
-  props.setProgress(30);
-  let parsedData = await data.json();
-  props.setProgress(60);
-
-  setarticles(parsedData.articles);
-  settotalResults(parsedData.totalResults);
-  setloading(false);
-  props.setProgress(100);
+    if (!data.ok) {
+      console.error("API error:", parsedData);
+      setarticles([]);
+      settotalResults(0);
+    } else {
+      setarticles(parsedData.articles || []);
+      settotalResults(parsedData.totalResults || 0);
+    }
+    
+    setloading(false);
+    props.setProgress(100);
+  } catch (error) {
+    console.error("Fetch error:", error);
+    setloading(false);
+    setarticles([]);
+    settotalResults(0);
+    props.setProgress(100);
+  }
 };
+
 
 const fetchMoreData = async () => {
   const nextPage = page + 1;
