@@ -14,8 +14,12 @@ const News = (props) => {
   try {
     props.setProgress(10);
     setloading(true);
+const localApiKey = process.env.REACT_APP_NEWS_API_KEY;
+    const isLocal = !window.location.hostname.includes("vercel.app");
+const url = isLocal
+      ? `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&page=${page}&pageSize=${props.pageSize}&apiKey=${localApiKey}`
+      : `/api/news?country=${props.country}&category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
 
-    const url = `/api/news?country=${props.country}&category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
 
@@ -43,8 +47,12 @@ const News = (props) => {
 const fetchMoreData = async () => {
   const nextPage = page + 1;
   setpage(nextPage);
+const localApiKey = process.env.REACT_APP_NEWS_API_KEY;
+  const isLocal = !window.location.hostname.includes("vercel.app");
 
-  const url = `/api/news?country=${props.country}&pageSize=${props.pageSize}&category=${props.category}&page=${nextPage}`;
+  const url = isLocal
+    ? `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&page=${nextPage}&pageSize=${props.pageSize}&apiKey=${localApiKey}`
+    : `/api/news?country=${props.country}&category=${props.category}&page=${nextPage}&pageSize=${props.pageSize}`;
 
   let data = await fetch(url);
   let parsedData = await data.json();
