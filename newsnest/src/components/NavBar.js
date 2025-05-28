@@ -7,7 +7,7 @@ const NavBar=()=>{
         <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark bg-body-tertiary">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">
-              Navbar
+              NewsNest
             </Link>
             <button
               className="navbar-toggler"
