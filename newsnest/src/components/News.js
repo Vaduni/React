@@ -57,15 +57,16 @@ const localApiKey = process.env.REACT_APP_NEWS_API_KEY;
   let data = await fetch(url);
   let parsedData = await data.json();
 
-  setarticles(articles.concat(parsedData.articles));
+ setarticles((prevArticles) => prevArticles.concat(parsedData.articles));
+
   settotalResults(parsedData.totalResults);
 };
 
-  useEffect(() => {
-    document.title="NewsNest - "+props.category;
-        updateNews();
-    // eslint-disable-next-line
-  }, []);
+ useEffect(() => {
+  document.title = "NewsNest - " + props.category;
+  updateNews();
+}, [props.category, props.country, props.pageSize]);
+
 
 
   return (
