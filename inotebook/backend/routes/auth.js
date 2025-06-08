@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 // Replace with env var in production
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
-
+// Route 1: Create a user using POST "/api/auth/createuser". No login required
 router.post(
   "/createuser",
   [
@@ -41,6 +41,7 @@ router.post(
         email: req.body.email,
         password: hashedPassword,
       });
+      await user.save();
       const data={
         user:{
             id: user.id
@@ -54,5 +55,41 @@ const authToken =jwt.sign(data,JWT_SECRET );
     }
   }
 );
+//Route 2: Authenticate a user using POST "/api/auth/login". No login required
+router.post(
+  "/login",
+  [
+    body("email", "Please enter a valid email").isEmail(),
+    body("password", "Password cannot be blank").exists(),
+  ], async (req, res) => {
+    //if there are errors , return a 400 status with errors
+ const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array()});
+    }
+    const { email, password } = req.body; 
+    try {
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ error: "Please try to login with correct credentials" });
+      }
+      const passwordCompare = await bcrypt.compare(password, user.password);
+      if (!passwordCompare) {
+        return res.status(400).json({ error: "Please try to login with correct credentials" });
+      }
+      const data = {
+        user: {
+          id: user.id
+        }
+      };
+      const authToken = jwt.sign(data, JWT_SECRET);
+      res.json({ authToken });
+    } catch (error) {
+      console.error("Error logging in user:", error.message);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
 
 module.exports = router;
+  
