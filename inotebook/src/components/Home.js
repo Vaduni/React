@@ -1,8 +1,9 @@
-import React from 'react'
+import Notes from "./Notes";
 
 export const Home = () => {
   return (
-    <div>Home</div>
-  )
-}   
-export default Home
+      <Notes/>
+
+  );
+};
+export default Home;
