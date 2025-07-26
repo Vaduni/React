@@ -25,11 +25,13 @@ router.post(
     }
     //checking whether user with this email already exists
     try {
+        let success = false;
       let existingUser = await User.findOne({ email: req.body.email });
       if (existingUser) {
+        success = false;
         return res
           .status(400)
-          .json({ error: "User with this email already exists" });
+          .json({ success,error: "User with this email already exists" });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -48,7 +50,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+        success = true;
+      res.json({success, authToken });
 
     } catch (error) {
       console.error("Error saving user:", error.message);
@@ -71,10 +74,10 @@ router.post(
     }
     const { email, password } = req.body;
     try {
-      let sucess = false;
+      let success = false;
       let user = await User.findOne({ email });
       if (!user) {
-        sucess = false;
+        success = false;
         return res.status(400).json({ error: "Please try to login with correct credentials" });
       }
       const passwordCompare = await bcrypt.compare(password, user.password);
@@ -89,13 +92,13 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      sucess = true;
-      res.json({ sucess, authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error("Error logging in user:", error.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
-  }
+   }
 );
 //Route 3:get loggedin user details using POST "/api/auth/getuser".Login required
 router.post(
