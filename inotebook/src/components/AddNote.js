@@ -10,7 +10,7 @@ const AddNote = () => {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.desc, note.tag);
-
+ 
     setNote({ title: "", desc: "", tag: "default" });
   };
 
@@ -44,20 +44,18 @@ const AddNote = () => {
             className="form-control"
             id="desc"
             name="desc"
-            value={note.desc}
             onChange={onChange}
           />
         </div>
-        <div className="mb-3">
+          <div className="mb-3">
           <label htmlFor="tag" className="form-label">
-            Tag (optional)
+            Tag
           </label>
           <input
             type="text"
             className="form-control"
             id="tag"
             name="tag"
-            value={note.tag}
             onChange={onChange}
           />
         </div>
