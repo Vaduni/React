@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  let location = useLocation(); 
+  let location = useLocation();
   return (
     <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
       <div className="container-fluid">
@@ -24,8 +24,9 @@ const Navbar = () => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                Link
-                className={`nav-link ${location.pathname === "/Home" ? "active" : ""}`} 
+                className={`nav-link ${
+                  location.pathname === "/Home" ? "active" : ""
+                }`}
                 aria-current="page"
                 to="/Home"
               >
@@ -33,7 +34,12 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname === "/About" ? "active" : ""}`} to="/About">
+              <Link
+                className={`nav-link ${
+                  location.pathname === "/About" ? "active" : ""
+                }`}
+                to="/About"
+              >
                 About
               </Link>
             </li>
