@@ -42,8 +42,8 @@ const getNotes = async () => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = await response.json();
-    setNotes(notes.concat(json));
+   const newNote = await response.json();
+  setNotes(notes.concat(newNote));
   };
   //Delete a note
   const deleteNote = async(id) => {
@@ -56,8 +56,8 @@ const getNotes = async () => {
       },
     });
     const json=response.json();
-    console.log("Response from delete:", json);
-    console.log("Deleting the note with id " + id);
+    console.log( json);
+
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });
