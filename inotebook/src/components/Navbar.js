@@ -1,7 +1,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  let Navigate = useNavigate(); 
+  const handleLogout=()=>{
+     localStorage.removeItem('token'); 
+     Navigate("/login");
+  }
   let location = useLocation();
   return (
     <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -44,13 +50,13 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
+         {! localStorage.getItem('token ') ?<form className="d-flex" role="search">
             <Link className="btn btn-outline-success mx-1" to="/Login" role="button">
             Login</Link>
             <Link className="btn btn-outline-success mx-1" to="/Signup" role="button">
             Signup</Link>
 
-          </form>
+          </form>:<button onClick={handleLogout} className="btn-btn-outline-success">Logout </button>  }
         </div>
       </div>
     </nav>
