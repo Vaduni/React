@@ -35,9 +35,9 @@ const About = () => {
           ].map((note, index) => (
             <div
               key={index}
-              className="relative bg-sticky_note text-brand-light p-6 pt-10 rounded-xl shadow-xl min-h-[180px] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 ease-in-out"
+              className="relative bg-sticky_note text-brand-dark p-6 pt-10 rounded-xl shadow-xl min-h-[180px] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 ease-in-out"
             >
-              <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-12 h-5 bg-yellow-300 rounded-md shadow-md rotate-2 z-10" />
+              <div className="absolute top-[-12px] left-1/2 -translate-x-1/2 w-12 h-5 bg-lime-700 rounded-md shadow-md rotate-2 z-10" />
               <h3 className="text-lg font-bold mb-2">{note.title}</h3>
               <p className="text-sm font-medium">{note.content}</p>
             </div>
