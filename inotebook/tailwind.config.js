@@ -16,8 +16,8 @@ module.exports = {
       backgroundImage: {
         'brand-gradient': 'linear-gradient(0deg,#4A403A,#322C2B,#040303,#0C0C0C)',
         'brand-about': ' radial-gradient(circle,#62b6cb,#003049)',
-
          'sticky_note': 'radial-gradient(circle,#856a5d,#726953,#66462c)',
+         'edit_note': 'radial-gradient(circle,#ccdde2,#97abb1,#82a6b1)',
       },
     },
   },

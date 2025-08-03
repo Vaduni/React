@@ -46,7 +46,7 @@ const Login = (props) => {
       className="flex-grow bg-cover bg-center flex justify-center items-center px-4"
       style={{
         backgroundImage: "url('/images/clouds.png')",
-        minHeight: "calc(100vh - 48px - 12px)", 
+        minHeight: "calc(100vh - 32px - 10px)", 
       }}
     >
       <div className="relative max-w-3xl w-full flex items-center justify-center">

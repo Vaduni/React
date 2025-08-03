@@ -1,15 +1,20 @@
-import React, { useEffect, useContext, useRef, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import NoteContext from "../context/notes/noteContext";
 import Noteitem from "./Noteitem";
 import AddNote from "./AddNote";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "./Loading";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
 
-const Notes = (props) => {
+const Notes = () => {
   const context = useContext(NoteContext);
   const { notes, getNotes, editNote } = context;
-  const ref = useRef(null);
-  const refClose = useRef(null);
-let navigate =useNavigate();
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
   const [note, setNote] = useState({
     id: "",
     etitle: "",
@@ -17,13 +22,19 @@ let navigate =useNavigate();
     etag: "",
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
-    if(localStorage.getItem('token')){
-    getNotes();
-    }
-else{
-navigate("/login");
-}
+    const fetchNotes = async () => {
+      if (localStorage.getItem("token")) {
+        setLoading(true);
+        await getNotes();
+        setLoading(false);
+      } else {
+        navigate("/login");
+      }
+    };
+    fetchNotes();
     // eslint-disable-next-line
   }, []);
 
@@ -34,7 +45,7 @@ navigate("/login");
       edescription: currentNote.description,
       etag: currentNote.tag,
     });
-    ref.current.click();
+    setIsModalOpen(true);
   };
 
   const onChange = (e) => {
@@ -43,126 +54,137 @@ navigate("/login");
 
   const handleClick = () => {
     editNote(note.id, note.etitle, note.edescription, note.etag);
-    refClose.current.click();
     setNote({ id: "", etitle: "", edescription: "", etag: "" });
-  props.showAlert("Updated Successfully", "success");
+    toast.success("Updated Successfully");
+    setIsModalOpen(false);
+  };
 
+  const particlesInit = async (main) => {
+    await loadSlim(main);
   };
 
   return (
-    <>
-      <AddNote showAlert={props.showAlert}/>
-      <button
-        ref={ref}
-        type="button"
-        className="btn btn-primary d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Launch demo modal
-      </button>
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Edit Note
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <form className="my-3">
-                <div className="mb-3">
-                  <label htmlFor="title" className="form-label">
-                    Title
-                  </label>
+    <div className="relative min-h-screen w-full overflow-hidden text-white">
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        className="absolute inset-0 -z-10"
+        options={{
+          fullScreen: false,
+          background: { color: { value: "#073b4c" } },
+          particles: {
+            number: { value: 80, density: { enable: true, area: 800 } },
+            color: { value: "#ffffff" },
+            shape: { type: "circle" },
+            opacity: { value: 0.2 },
+            size: { value: 2, random: true },
+            links: {
+              enable: true,
+              color: "#ffffff",
+              distance: 130,
+              opacity: 0.2,
+              width: 1,
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              outModes: { default: "bounce" },
+            },
+          },
+          interactivity: {
+            events: {
+              onHover: { enable: true, mode: "grab" },
+              onClick: { enable: true, mode: "push" },
+            },
+            modes: {
+              grab: { distance: 140, links: { opacity: 0.3 } },
+              push: { quantity: 3 },
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 py-8">
+        <AddNote />
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0  bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="bg-edit_note text-gray-950 rounded-lg shadow-lg w-full max-w-md p-6">
+              <h2 className="text-xl text-center font-semibold mb-4">EDIT NOTE</h2>
+              <form>
+                <div className="mb-4">
+                  <label className="block font-medium">TITLE</label>
                   <input
                     type="text"
-                    className="form-control"
-                    id="etitle"
                     name="etitle"
                     value={note.etitle}
-                    aria-describedby="emailHelp"
                     onChange={onChange}
+                    className="w-full mt-1 p-2 border rounded"
                     minLength={5}
                     required
                   />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="description" className="form-label">
-                    Description
-                  </label>
+                <div className="mb-4">
+                  <label className="block font-medium">DESCRIPTION</label>
                   <input
                     type="text"
-                    className="form-control"
-                    id="edescription"
                     name="edescription"
                     value={note.edescription}
                     onChange={onChange}
+                    className="w-full mt-1 p-2 border rounded"
                     minLength={5}
                     required
                   />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="tag" className="form-label">
-                    Tag
-                  </label>
+                <div className="mb-4">
+                  <label className="block font-medium">TAG</label>
                   <input
                     type="text"
-                    className="form-control"
-                    id="etag"
                     name="etag"
                     value={note.etag}
                     onChange={onChange}
+                    className="w-full mt-1 p-2 border rounded"
                   />
                 </div>
               </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                ref={refClose}
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                disabled={
-                  note.etitle.length < 5 || note.edescription.length < 5
-                }
-                onClick={handleClick}
-                type="button"
-                className="btn btn-primary"
-              >
-                Update Note
-              </button>
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-brand-dark text-white rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleClick}
+                  disabled={note.etitle.length < 5 || note.edescription.length < 5}
+                  className="px-4 py-2 bg-brand-dark text-white rounded disabled:opacity-50"
+                >
+                  Update Note
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-     <div className="container my-3">
-  <h2>Your Notes</h2>
-  <div className="row">
-    {notes.length === 0 && <p>No notes to display</p>}
-    {notes.map((note) => (
-      <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert}note={note} />
-    ))}
-  </div>
+        )}
+
+        <div className="my-6 ">
+          <h2 className=" text-2xl text-brand-light font-semibold mb-3 mx-3 text-center ">Your Notes</h2>
+          {loading ? (
+            <Loading />
+          ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+  {notes.length === 0 && <p>No notes to display</p>}
+  {notes.map((note) => (
+    <Noteitem key={note._id} updateNote={updateNote} note={note} />
+  ))}
 </div>
 
-    </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
