@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import About from "./components/About";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Alert from "./components/Alert";
+import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
  
 import {
   BrowserRouter as Router,
@@ -15,31 +18,27 @@ import {
 import NoteState from "./context/notes/NoteState";
 
 function App() {
-  const [alert, setAlert] = useState(null);
-  const showAlert = (message, type) => {
-    setAlert({
-      msg: message,
-      type: type,
-    });
-    setTimeout(() => {
-      setAlert(null);
-    }, 1500);
-  };
   return (
     <NoteState>
       <Router>
-        <Navbar />
-        <Alert alert={alert} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home  showAlert={showAlert}/>} />
-          <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login showAlert={showAlert}/>} />
-              <Route path="/signup" element={<Signup  showAlert={showAlert}/>} />
-        </Routes>
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <ToastContainer position="top-right" autoClose={3000} />
+
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </Router>
     </NoteState>
   );
 }
-
 export default App;
