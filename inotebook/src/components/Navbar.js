@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; 
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
+     toast.success("Logout successfully");
   };
 
   const location = useLocation();
