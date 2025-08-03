@@ -1,62 +1,81 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  let Navigate = useNavigate(); 
-  const handleLogout=()=>{
-     localStorage.removeItem('token'); 
-     Navigate("/login");
-  }
-  let location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  const location = useLocation();
+
   return (
-    <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/Navbar">
-          iNotebook
-        </Link>
+    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-md  text-white">
+      <div className="max-w-screen-xl mx-auto px-4 py-1 flex items-center justify-between">
+        <div className="flex items-center mt-2 space-x-2">
+          <h1>
+            <b>iNotebook</b>
+          </h1>
+        </div>
         <button
-          className="navbar-toggler"
+          className="inline-flex items-center p-2 ml-3 text-sm text-white rounded-lg lg:hidden hover:bg-brand-accent focus:outline-none"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
+          data-collapse-toggle="navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+        ></button>
+        <div className="flex items-center space-x-4">
+          <ul className="flex space-x-4 items-center mt-2">
+            <li>
               <Link
-                className={`nav-link ${
-                  location.pathname === "/Home" ? "active" : ""
-                }`}
-                aria-current="page"
                 to="/Home"
+                className={`block py-0 px-2 rounded ${
+                  location.pathname === "/Home"
+                    ? "bg-gray-400 opacity-30"
+                    : "hover:bg-gray-400 hover:bg-opacity-30"
+                }`}
               >
                 Home
               </Link>
             </li>
-            <li className="nav-item">
+            <li>
               <Link
-                className={`nav-link ${
-                  location.pathname === "/About" ? "active" : ""
-                }`}
                 to="/About"
+                className={`block py-0 px-2 rounded ${
+                  location.pathname === "/About"
+                    ? "bg-gray-400 opacity-30  "
+                    : "hover:bg-gray-400 hover:bg-opacity-60 "
+                }`}
               >
                 About
               </Link>
             </li>
           </ul>
-         {! localStorage.getItem('token ') ?<form className="d-flex" role="search">
-            <Link className="btn btn-outline-success mx-1" to="/Login" role="button">
-            Login</Link>
-            <Link className="btn btn-outline-success mx-1" to="/Signup" role="button">
-            Signup</Link>
-
-          </form>:<button onClick={handleLogout} className="btn-btn-outline-success">Logout </button>  }
+          {!localStorage.getItem("token") ? (
+            <div className="flex items-center mt-2 lg:mt-0 lg:ml-4 space-x-2">
+              <Link
+                to="/Login"
+                className="px-3 py-1 rounded text-white bg-gray-400/50  hover:bg-gray-400/30 transition border border-gray-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/Signup"
+                className="px-3 py-1 rounded text-white bg-gray-400/50  hover:bg-gray-400/30 transition border border-gray-300"
+              >
+                Signup
+              </Link>
+            </div>
+          ) : (
+            <button
+              onClick={handleLogout}
+              className="px-2 py-1 mt-2 border border-brand-accent text-brand-light rounded hover:bg-brand-accent hover:text-white transition"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </nav>
