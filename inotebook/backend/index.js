@@ -9,8 +9,8 @@ const port = process.env.PORT || 8000;
 
 const allowedOrigins = [
   "https://inotebook-git-main-vaduni-niranjans-projects-32a1dc87.vercel.app",
-  "https://inotebook-teal-beta.vercel.app",
-  "https://inotebook-4ovv63t37-vaduni-niranjans-projects-32a1dc87.vercel.app",
+  "https://inotebook-delta-sable.vercel.app/",
+  "https://inotebook-ejsgd3niw-vaduni-niranjans-projects-32a1dc87.vercel.app/",
   "http://localhost:8000"
 ];
 
