@@ -21,6 +21,9 @@ app.use(cors({
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send(" iNotebook backend is live!");
+});
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 
