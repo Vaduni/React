@@ -1,7 +1,7 @@
 import NoteContext from "./noteContext";
 import { useState } from "react";
 const NoteState = (props) => {
-  const host = "http://localhost:8000";
+ const host = "https://inotebook-backend-kgs1.onrender.com";
   const [notes, setNotes] = useState([]); 
 
 const getNotes = async () => {
@@ -55,7 +55,7 @@ const getNotes = async () => {
        "auth-token": localStorage.getItem('token'),
       },
     });
-    const json=response.json();
+    const json=await response.json();
     console.log( json);
 
     const newNotes = notes.filter((note) => {
